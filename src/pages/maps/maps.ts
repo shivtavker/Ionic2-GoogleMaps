@@ -1,6 +1,8 @@
 import {Component,ViewChild,ElementRef} from '@angular/core';
+import {NavController,NavParams} from 'ionic-angular';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
+import {Geolocation} from '@ionic-native/geolocation';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/timeout';
@@ -16,7 +18,14 @@ declare var google;
 export class MapsPage{
 
 @ViewChild('mapContainer') mapContainer : ElementRef;
+@ViewChild('directionsPanel') directionsPanel : ElementRef;
+
 map : any;
+originLocation;
+destinationLocation = {lat: 12.991296, lng: 80.234234};
+markers;
+title;
+
 mapStyle = [
   {
     "elementType": "geometry",
@@ -251,21 +260,31 @@ mapStyle = [
   }
 ];
 
-    constructor(public http : Http){
-
+    constructor(private navParams: NavParams, private geolocation : Geolocation, public http : Http){
+      this.title = this.navParams.get('title');
+      this.destinationLocation = this.navParams.get('location');
+      console.log(this.destinationLocation);
     }
 
     ionViewWillEnter() {
+
+        this.geolocation.getCurrentPosition()
+                        .then( origin => {
+                          this.originLocation = {lat: origin.coords.latitude, lng: origin.coords.longitude};
+                          console.log(this.originLocation);
+                          this.startNavigating(); 
+                        })
+                        .catch( err => console.log(err));
         this.displayGoogleMap();
-        this.getmarkers();
+        // this.startNavigating();
     }
+
 
     getmarkers(){
         this.http.get('assets/data/markers.json')
                  .map(res => res.json())
-                 .concatMap(val => Observable.of(val).delay(1200))
                  .subscribe(data => {
-                    this.addMarkersToMap(data);
+                    this.markers = data;
                  });
     }
 
@@ -282,13 +301,35 @@ mapStyle = [
 
          let mapOptions = {
             center: latLng,
-            disableDefaultUI: false,
+            // disableDefaultUI: false,
             zoom: 18,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             styles: this.mapStyle
          }
 
          this.map = new google.maps.Map(this.mapContainer.nativeElement, mapOptions);
+    }
+
+    startNavigating(){
+      let directionsService = new google.maps.DirectionsService;
+      let directionsDisplay = new google.maps.DirectionsRenderer;
+ 
+        directionsDisplay.setMap(this.map);
+        directionsDisplay.setPanel(this.directionsPanel.nativeElement);
+ 
+        directionsService.route({
+            origin: this.originLocation,
+            destination: this.destinationLocation,
+            travelMode: google.maps.TravelMode['DRIVING']
+        }, (res, status) => {
+ 
+            if(status == google.maps.DirectionsStatus.OK){
+                directionsDisplay.setDirections(res);
+            } else {
+                console.warn(status);
+            }
+ 
+        });
     }
 
 }
