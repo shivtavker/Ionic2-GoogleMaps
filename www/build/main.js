@@ -1,6 +1,6 @@
 webpackJsonp([0],{
 
-/***/ 111:
+/***/ 112:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -13,11 +13,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 111;
+webpackEmptyAsyncContext.id = 112;
 
 /***/ }),
 
-/***/ 153:
+/***/ 154:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -30,7 +30,7 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 153;
+webpackEmptyAsyncContext.id = 154;
 
 /***/ }),
 
@@ -42,8 +42,9 @@ webpackEmptyAsyncContext.id = 153;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_diagnostic__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__maps_maps__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_diagnostic__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__maps_maps__ = __webpack_require__(199);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -58,19 +59,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var HomePage = (function () {
-    function HomePage(diagnostic, alertCtrl, navCtrl, http) {
+    function HomePage(diagnostic, platform, geolocation, alertCtrl, navCtrl, http) {
         this.diagnostic = diagnostic;
+        this.platform = platform;
+        this.geolocation = geolocation;
         this.alertCtrl = alertCtrl;
         this.navCtrl = navCtrl;
         this.http = http;
+        this.geoLocationOption = {
+            enableHighAccuracy: true
+        };
         this.getmarkers();
     }
     HomePage.prototype.ionViewDidLoad = function () {
         var _this = this;
-        this.diagnostic.isGpsLocationEnabled().then(function (Available) {
-            console.log("Location is Available");
-        }).catch(function (err) {
+        this.platform.ready().then(function () {
+            // this.geolocation.getCurrentPosition(this.geoLocationOption).then((Available) => {
+            //   console.log("Location is Available");
+            // }).catch((err) => {
+            //   this.TurnOnGpsAlert();
+            // });
             _this.TurnOnGpsAlert();
         });
     };
@@ -106,7 +116,7 @@ var HomePage = (function () {
     };
     HomePage.prototype.gomaps = function (lat, lng, title) {
         var location = { lat: lat, lng: lng };
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__maps_maps__["a" /* MapsPage */], { location: location, title: title });
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__maps_maps__["a" /* MapsPage */], { location: location, title: title });
         console.log(lat, lng);
     };
     HomePage.prototype.GotoMaps = function () {
@@ -114,11 +124,13 @@ var HomePage = (function () {
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"C:\Users\Shiv Tavker\Documents\maps\src\pages\home\home.html"*/`<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Select Your Destination\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n\n  <ion-list>\n    <button ion-item *ngFor="let marker of markers" (click)="gomaps(marker.lat,marker.lng,marker.title)">\n      {{marker.title}}\n    </button> \n    <!--<button ion-item (click)="gomaps()">\n      Central Library\n    </button> -->\n  </ion-list>\n</ion-content>\n`/*ion-inline-end:"C:\Users\Shiv Tavker\Documents\maps\src\pages\home\home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/home/shilpa/Ionic2-GoogleMaps/src/pages/home/home.html"*/`<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Select Your Destination\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n\n  <ion-list>\n    <button ion-item *ngFor="let marker of markers" (click)="gomaps(marker.lat,marker.lng,marker.title)">\n      {{marker.title}}\n    </button> \n    <!--<button ion-item (click)="gomaps()">\n      Central Library\n    </button> -->\n  </ion-list>\n</ion-content>\n`/*ion-inline-end:"/home/shilpa/Ionic2-GoogleMaps/src/pages/home/home.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__ionic_native_diagnostic__["a" /* Diagnostic */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__ionic_native_diagnostic__["a" /* Diagnostic */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]])
     ], HomePage);
     return HomePage;
@@ -136,7 +148,7 @@ var HomePage = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__(276);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_timeout__ = __webpack_require__(277);
@@ -157,12 +169,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var MapsPage = (function () {
-    function MapsPage(platform, navParams, geolocation, http) {
+    function MapsPage(platform, navParams, geolocation, http, loadingCtrl) {
         var _this = this;
         this.platform = platform;
         this.navParams = navParams;
         this.geolocation = geolocation;
         this.http = http;
+        this.loadingCtrl = loadingCtrl;
         this.destinationLocation = { lat: 12.991296, lng: 80.234234 };
         this.geoLocationOption = {
             enableHighAccuracy: true
@@ -400,6 +413,7 @@ var MapsPage = (function () {
                 ]
             }
         ];
+        this.presentLoadingCustom();
         this.title = this.navParams.get('title');
         this.destinationLocation = this.navParams.get('location');
         console.log(this.destinationLocation);
@@ -410,11 +424,40 @@ var MapsPage = (function () {
                 console.log('Origin Position ' + _this.originLocation);
                 _this.startNavigating();
             })
-                .catch(function (err) { return window.alert("Enable to Find You!!"); });
+                .catch(function (err) { return window.alert("Unable to Find You!!"); });
             // this.displayGoogleMap();
             // this.startNavigating();
         });
     }
+    MapsPage.prototype.presentLoadingCustom = function () {
+        this.loading = this.loadingCtrl.create({
+            spinner: 'hide',
+            content: "\n      <div class=\"custom-spinner-container\">\n        <div class=\"custom-spinner-box\"></div>\n        Loading Directions..\n      </div>"
+        });
+        console.log('entered loading function');
+        this.loading.onDidDismiss(function () {
+            console.log('Dismissed loading');
+        });
+        this.loading.present();
+    };
+    /*
+    presentLoadingCustom() {
+      let loading = this.loadingCtrl.create({
+        spinner: 'hide',
+        content: `
+          <div class="custom-spinner-container">
+            <div class="custom-spinner-box"></div>
+          </div>`,
+        duration: 5000
+      });
+        console.log('entered loading function');
+    
+      loading.onDidDismiss(() => {
+        console.log('Dismissed loading');
+      });
+    
+      loading.present();
+    }*/
     MapsPage.prototype.ionViewDidLoad = function () {
         this.displayGoogleMap();
     };
@@ -446,6 +489,7 @@ var MapsPage = (function () {
         this.map = new google.maps.Map(this.mapContainer.nativeElement, mapOptions);
     };
     MapsPage.prototype.startNavigating = function () {
+        var _this = this;
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
         directionsDisplay.setMap(this.map);
@@ -456,6 +500,7 @@ var MapsPage = (function () {
             travelMode: google.maps.TravelMode['DRIVING']
         }, function (res, status) {
             if (status == google.maps.DirectionsStatus.OK) {
+                _this.loading.dismiss();
                 directionsDisplay.setDirections(res);
             }
             else {
@@ -466,19 +511,20 @@ var MapsPage = (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('mapContainer'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */]) === "function" && _a || Object)
     ], MapsPage.prototype, "mapContainer", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])('directionsPanel'),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */])
+        __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ElementRef */]) === "function" && _b || Object)
     ], MapsPage.prototype, "directionsPanel", void 0);
     MapsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-map',template:/*ion-inline-start:"C:\Users\Shiv Tavker\Documents\maps\src\pages\maps\maps.html"*/`<ion-header>\n\n  <ion-navbar>\n\n    <ion-title>\n\n      Directions to {{title}}\n\n    </ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content class="hideScrollBar">\n\n\n\n <ion-card>\n\n    <ion-card-content nopadding>\n\n      <div #directionsPanel></div>\n\n    </ion-card-content>\n\n  </ion-card> \n\n\n\n <div #mapContainer id="map"></div>\n\n\n\n</ion-content>`/*ion-inline-end:"C:\Users\Shiv Tavker\Documents\maps\src\pages\maps\maps.html"*/
+            selector: 'page-map',template:/*ion-inline-start:"/home/shilpa/Ionic2-GoogleMaps/src/pages/maps/maps.html"*/`<ion-header>\n\n  <ion-navbar>\n\n    <ion-title>\n\n      Directions to {{title}}\n\n    </ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content class="hideScrollBar">\n\n\n\n <ion-card>\n\n    <ion-card-content nopadding>\n\n      <div #directionsPanel></div>\n\n    </ion-card-content>\n\n  </ion-card> \n\n\n\n <div #mapContainer id="map"></div>\n\n\n\n</ion-content>`/*ion-inline-end:"/home/shilpa/Ionic2-GoogleMaps/src/pages/maps/maps.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */], __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]])
+        __metadata("design:paramtypes", [typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Platform */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Platform */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__["a" /* Geolocation */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* LoadingController */]) === "function" && _g || Object])
     ], MapsPage);
     return MapsPage;
+    var _a, _b, _c, _d, _e, _f, _g;
 }());
 
 //# sourceMappingURL=maps.js.map
@@ -507,10 +553,10 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(196);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_geolocation__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_geolocation__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_diagnostic__ = __webpack_require__(197);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__(275);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_home_home__ = __webpack_require__(198);
@@ -578,8 +624,8 @@ var AppModule = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(194);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(198);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -606,9 +652,9 @@ var MyApp = (function () {
         });
     }
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"C:\Users\Shiv Tavker\Documents\maps\src\app\app.html"*/`<ion-nav [root]="rootPage"></ion-nav>\n`/*ion-inline-end:"C:\Users\Shiv Tavker\Documents\maps\src\app\app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/shilpa/Ionic2-GoogleMaps/src/app/app.html"*/`<ion-nav [root]="rootPage"></ion-nav>\n`/*ion-inline-end:"/home/shilpa/Ionic2-GoogleMaps/src/app/app.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
     return MyApp;
 }());

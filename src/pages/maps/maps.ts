@@ -1,9 +1,8 @@
 import {Component,ViewChild,ElementRef} from '@angular/core';
-import {Platform,NavController,NavParams} from 'ionic-angular';
+import {Platform,NavController,NavParams,LoadingController} from 'ionic-angular';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import {Geolocation,GeolocationOptions} from '@ionic-native/geolocation';
-
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/timeout';
 
@@ -25,6 +24,7 @@ originLocation;
 destinationLocation = {lat: 12.991296, lng: 80.234234};
 markers;
 title;
+loading;
 
 geoLocationOption : GeolocationOptions = {
   enableHighAccuracy: true
@@ -264,7 +264,8 @@ mapStyle = [
   }
 ];
 
-    constructor(private platform:Platform, private navParams: NavParams, private geolocation : Geolocation, public http : Http){
+    constructor(private platform:Platform, private navParams: NavParams, private geolocation : Geolocation, public http : Http,public loadingCtrl: LoadingController){
+      this.presentLoadingCustom();
       this.title = this.navParams.get('title');
       this.destinationLocation = this.navParams.get('location');
       console.log(this.destinationLocation);
@@ -281,6 +282,45 @@ mapStyle = [
         // this.startNavigating();
       });
     }
+
+
+presentLoadingCustom() {
+  this.loading = this.loadingCtrl.create({
+    spinner: 'hide',
+    content: `
+      <div class="custom-spinner-container">
+        <div class="custom-spinner-box"></div>
+        Loading Directions..
+      </div>`
+  });
+
+    console.log('entered loading function');
+
+  this.loading.onDidDismiss(() => {
+    console.log('Dismissed loading');
+  });
+
+  this.loading.present();
+} 
+/*
+presentLoadingCustom() {
+  let loading = this.loadingCtrl.create({
+    spinner: 'hide',
+    content: `
+      <div class="custom-spinner-container">
+        <div class="custom-spinner-box"></div>
+      </div>`,
+    duration: 5000
+  });
+    console.log('entered loading function');
+
+  loading.onDidDismiss(() => {
+    console.log('Dismissed loading');
+  });
+
+  loading.present();
+}*/
+
 
     ionViewDidLoad(){
       this.displayGoogleMap();
@@ -330,6 +370,7 @@ mapStyle = [
         }, (res, status) => {
  
             if(status == google.maps.DirectionsStatus.OK){
+              this.loading.dismiss();
                 directionsDisplay.setDirections(res);
             } else {
                 window.alert('Directions request failed due to ' + status);
