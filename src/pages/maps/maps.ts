@@ -276,7 +276,7 @@ mapStyle = [
                           console.log('Origin Position ' + this.originLocation);
                           this.startNavigating(); 
                         })
-                        .catch( err => window.alert("Enable to Find You!!"));
+                        .catch( err => window.alert("Unable to Find You!!"));
         // this.displayGoogleMap();
         // this.startNavigating();
       });

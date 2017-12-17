@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController,Platform } from 'ionic-angular';
 import {Http} from '@angular/http';
+import {Geolocation,GeolocationOptions} from '@ionic-native/geolocation'
 import {Diagnostic} from '@ionic-native/diagnostic';
 import { MapsPage } from '../maps/maps';
 
@@ -12,7 +13,13 @@ export class HomePage {
 
 markers : [{}];
 
+geoLocationOption : GeolocationOptions = {
+  enableHighAccuracy: true
+}
+
   constructor(private diagnostic: Diagnostic,
+              private platform: Platform,
+              public geolocation: Geolocation,
               public alertCtrl: AlertController, 
               public navCtrl: NavController, 
               public http:Http) {
@@ -20,12 +27,16 @@ markers : [{}];
   }
 
   ionViewDidLoad(){
-    this.diagnostic.isGpsLocationEnabled().then((Available) => {
-      console.log("Location is Available");
-    }).catch((err) => {
+    this.platform.ready().then(() => {
+      // this.geolocation.getCurrentPosition(this.geoLocationOption).then((Available) => {
+      //   console.log("Location is Available");
+      // }).catch((err) => {
+      //   this.TurnOnGpsAlert();
+      // });
       this.TurnOnGpsAlert();
-    });
+    })
   }
+
 
   TurnOnGpsAlert(){
     let turnOnGpsAlert = this.alertCtrl.create({
