@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import {HttpModule} from '@angular/http';
 import {Geolocation} from '@ionic-native/geolocation';
+import {Diagnostic} from '@ionic-native/diagnostic';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -31,6 +32,7 @@ import { MapsPage } from '../pages/maps/maps';
     StatusBar,
     SplashScreen,
     Geolocation,
+    Diagnostic,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

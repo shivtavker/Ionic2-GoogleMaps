@@ -1,8 +1,8 @@
 import {Component,ViewChild,ElementRef} from '@angular/core';
-import {NavController,NavParams} from 'ionic-angular';
+import {Platform,NavController,NavParams} from 'ionic-angular';
 import {Http} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
-import {Geolocation} from '@ionic-native/geolocation';
+import {Geolocation,GeolocationOptions} from '@ionic-native/geolocation';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/timeout';
@@ -25,6 +25,10 @@ originLocation;
 destinationLocation = {lat: 12.991296, lng: 80.234234};
 markers;
 title;
+
+geoLocationOption : GeolocationOptions = {
+  enableHighAccuracy: true
+}
 
 mapStyle = [
   {
@@ -260,25 +264,27 @@ mapStyle = [
   }
 ];
 
-    constructor(private navParams: NavParams, private geolocation : Geolocation, public http : Http){
+    constructor(private platform:Platform, private navParams: NavParams, private geolocation : Geolocation, public http : Http){
       this.title = this.navParams.get('title');
       this.destinationLocation = this.navParams.get('location');
       console.log(this.destinationLocation);
-    }
 
-    ionViewWillEnter() {
-
-        this.geolocation.getCurrentPosition()
+      this.platform.ready().then(() => {
+        this.geolocation.getCurrentPosition(this.geoLocationOption)
                         .then( origin => {
                           this.originLocation = {lat: origin.coords.latitude, lng: origin.coords.longitude};
-                          console.log(this.originLocation);
+                          console.log('Origin Position ' + this.originLocation);
                           this.startNavigating(); 
                         })
-                        .catch( err => console.log(err));
-        this.displayGoogleMap();
+                        .catch( err => window.alert("Enable to Find You!!"));
+        // this.displayGoogleMap();
         // this.startNavigating();
+      });
     }
 
+    ionViewDidLoad(){
+      this.displayGoogleMap();
+    }
 
     getmarkers(){
         this.http.get('assets/data/markers.json')
@@ -326,7 +332,8 @@ mapStyle = [
             if(status == google.maps.DirectionsStatus.OK){
                 directionsDisplay.setDirections(res);
             } else {
-                console.warn(status);
+                window.alert('Directions request failed due to ' + status);
+                console.log('Directions request failed due to ' + status);
             }
  
         });
